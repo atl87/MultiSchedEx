@@ -342,8 +342,7 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int task_
             cout<<" Block: "<<total_blocking_before_start;
 
         float total_blocking_after_start=blocking_from_m_tasks_afterstart(helper,number_of_proc-1);
-
-        
+       
         for(int s=0;s<100;s++)
             diff[s]=(float)0.0000;
         
@@ -376,13 +375,11 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int task_
         
         sort(diff,i-1);
         interference+=sum_largest(diff,(int)number_of_proc-1); 
-        
-        
+                
         float no_of_preemptions=calc_no_of_preemptions(taskset, helper, t);
         
         new_workload=helper->comp_time - helper->largest_NPR + 1 + floor((total_blocking_before_start + (no_of_preemptions*total_blocking_after_start) + interference)/number_of_proc);
-        
-        
+                
         t=t+(float)1.0000;        
         }while((new_workload > (t-(float)1.0000)) && new_workload <= helper->deadline);
         
@@ -391,8 +388,7 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int task_
         new_workload=total_blocking_before_start + (no_of_preemptions*total_blocking_after_start) + interference;
         
         helper->RT=helper->comp_time +(float)floor(new_workload/number_of_proc);
-        
-        
+               
         if(interference < (float)0.0000)
             exit(1);
         helper->RT_our=helper->RT;
