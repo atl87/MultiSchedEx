@@ -17,6 +17,7 @@
 int g_p_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log);
 int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log);
 int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log);
+int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log);
 
 
 #endif /* FPS_SCHEDULERS_H */

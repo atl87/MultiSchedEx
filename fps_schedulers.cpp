@@ -326,7 +326,7 @@ void insert_into_ready_queue_fps(real_time_taskset **ready_queue, real_time_task
     }    
 }
 
-int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
+int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
 {
     
     int time=0;
@@ -761,7 +761,7 @@ int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int
 }
 
 
-int eager_lp_fps_schedule_modified(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
+int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
 {
     
     int time=0;
@@ -805,8 +805,7 @@ int eager_lp_fps_schedule_modified(real_time_taskset *taskset, float no_of_proce
                 {
                     cout<<"\n\nError!!";
                     exit(0);
-                }
-                
+                }               
             }
             helper=exchange;
         }
@@ -867,8 +866,7 @@ int eager_lp_fps_schedule_modified(real_time_taskset *taskset, float no_of_proce
                     }
                 }
             }
-        
-        
+                
         for(int i=0;i<no_of_processors;i++)
         {
             if(running_tasks[i]!=NULL && running_tasks[i]->cur_NPR==0)
@@ -908,8 +906,6 @@ int eager_lp_fps_schedule_modified(real_time_taskset *taskset, float no_of_proce
         {
             if(running_tasks[i]!=NULL)
             {
-//                if(running_tasks[i]->cur_NPR==0)
-//                {
                 finished_task=running_tasks[i];
                 if(finished_task->rem_comp_time==0)
                 {
@@ -934,9 +930,7 @@ int eager_lp_fps_schedule_modified(real_time_taskset *taskset, float no_of_proce
                     taskset=sort_task_set_DM(taskset);
 
                     running_tasks[i]=NULL;
-                }
-
-//                }            
+                }      
             }
         } 
         time++;
