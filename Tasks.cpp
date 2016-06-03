@@ -67,14 +67,14 @@ real_time_taskset *sort_task_set_DM(real_time_taskset *taskset)
     if(taskset==NULL)
         cout<<"Error: No task to print !";
     else
-    {
+    {      
        real_time_taskset *sort_help1=taskset;
         while(sort_help1)
         {
             real_time_taskset *sort_help2=sort_help1->next_task;
             while(sort_help2)
             {
-                if(sort_help1->deadline > sort_help2->deadline) // Sort according to DM
+                if(sort_help1->task_no > sort_help2->task_no)
                 {
                     real_time_taskset *prev_task1=taskset;
                     if(sort_help1!=taskset)
@@ -111,33 +111,22 @@ real_time_taskset *sort_task_set_DM(real_time_taskset *taskset)
                         else
                                 sort_help2->next_task=sort_help1;
                         
-                        taskset=sort_help2;
+                        taskset=sort_help2;                       
                     }
                                
                     dummy=sort_help1;
                     sort_help1=sort_help2;
-                    sort_help2=dummy;
+                    sort_help2=dummy;   
                 }
                 
                 sort_help2=sort_help2->next_task;
             }
             
             sort_help1=sort_help1->next_task;
-        }
-       
-       real_time_taskset *help_ptr=taskset;
-        int counter=1;
-        while(help_ptr!=NULL)
-        {
-            help_ptr->task_no=counter;
-            help_ptr=help_ptr->next_task;
-            counter++;
-        }
+        }       
     }
- 
     return taskset;
 }
-
 void restore_taskset(real_time_taskset *taskset)
 {
     real_time_taskset *helper=taskset;

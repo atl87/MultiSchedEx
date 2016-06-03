@@ -61,7 +61,7 @@ int insert_into_ready_queue(real_time_taskset **ready_queue, real_time_taskset *
             dummy=dummy->next_task;
             i++;
             if(dummy==NULL)
-                break;    
+                break;           
         }
         if(i<=no_of_proc)
         {
@@ -94,7 +94,7 @@ int insert_into_ready_queue(real_time_taskset **ready_queue, real_time_taskset *
                 real_time_taskset *ptr=*ready_queue;
                 for(;ptr->next_task!=dummy;ptr=ptr->next_task);
                 ptr->next_task=*helper;
-                (*helper)->next_task=dummy;   
+                (*helper)->next_task=dummy;                
             }
         }
         
@@ -114,7 +114,7 @@ void remove_from_ready_queue(real_time_taskset **ready_queue, real_time_taskset 
 {
     if(print_log)
         cout<<"Removing task "<<(*finished_task)->task_no<<" from ready queue\n";
-
+    
     if(*finished_task==*ready_queue)
     {
         *ready_queue=(*ready_queue)->next_task;
@@ -146,14 +146,14 @@ void remove_from_ready_queue(real_time_taskset **ready_queue, real_time_taskset 
             (*finished_task)->next_task=(*taskset);
             (*taskset)=(*finished_task);
         } 
-    }  
+    }   
 }
 
 int g_p_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
-{
+{ 
     int time=0;
     int no_of_preemptions=0;    
-    int no_of_tasks=count_tasks(taskset);    
+    int no_of_tasks=count_tasks(taskset);
     real_time_taskset *ready_queue=NULL;
     real_time_taskset *helper=taskset;
     real_time_taskset *ready_queue_helper=ready_queue;
@@ -251,12 +251,12 @@ int g_p_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX
         helper->next_task=ready_queue;
     }
     else
-        taskset=ready_queue;    
+        taskset=ready_queue;   
     taskset=sort_task_set_DM(taskset);
     
     return no_of_preemptions;        
 }
-void insert_into_ready_queue_fps(real_time_taskset **ready_queue, real_time_taskset **helper, real_time_taskset **taskset, float no_of_proc, int print_log)
+void rds_insert_into_ready_queue(real_time_taskset **ready_queue, real_time_taskset **helper, real_time_taskset **taskset, float no_of_proc, int print_log)
 {
     real_time_taskset *dummy=*taskset;
     
@@ -299,7 +299,7 @@ void insert_into_ready_queue_fps(real_time_taskset **ready_queue, real_time_task
             dummy=dummy->next_task;
             i++;
             if(dummy==NULL)
-                break;            
+                break;          
         }
         if(dummy==NULL)
         {
@@ -323,14 +323,13 @@ void insert_into_ready_queue_fps(real_time_taskset **ready_queue, real_time_task
             }
         }
 
-    }    
+    }   
 }
 
-int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
-{
-    
+int eager_lp_fps_schedule_not_used(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
+{  
     int time=0;
-    int no_of_preemptions=0;    
+    int no_of_preemptions=0;   
     real_time_taskset *ready_queue=NULL;
     real_time_taskset *running_tasks[30];
     real_time_taskset *helper=taskset;
@@ -362,8 +361,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
                 else
                     helper->cur_NPR=helper->rem_comp_time;
                 helper->abs_deadline=time+helper->period;
-                
-                insert_into_ready_queue_fps(&ready_queue, &helper, &taskset, no_of_processors,print_log);
+                rds_insert_into_ready_queue(&ready_queue, &helper, &taskset, no_of_processors,print_log);
                 if(ready_queue==NULL)
                 {
                     cout<<"\n\nError!!";
@@ -399,7 +397,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
                                 cout<<"\n\t\t******************************************preempting task"<<finished_task->task_no<<"*\n";
                             running_tasks[i]=ready_queue;
                             ready_queue=ready_queue->next_task;
-                            insert_into_ready_queue_fps(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
+                            rds_insert_into_ready_queue(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
 
                             no_of_preemptions++;
                         }
@@ -450,7 +448,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
                         if(finished_task->abs_deadline<time+1)
                             finished_task->no_of_deadlines_missed++;
                         
-                        insert_into_ready_queue_fps(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
+                        rds_insert_into_ready_queue(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
                         finished_task=running_tasks[i];
                         remove_from_ready_queue(&ready_queue, &finished_task, &taskset, print_log);
                         taskset=sort_task_set_DM(taskset);
@@ -475,8 +473,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
             }
         } 
         time++;
-    }
-    
+    }  
     finished_task=taskset;
 
     if(finished_task!=NULL)        
@@ -510,7 +507,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
             }
         }
         taskset=finished_task;
-        for(; i<no_of_processors;i++)
+        for(;i<no_of_processors;i++)
         {
             if(running_tasks[i]!=NULL)
             {
@@ -526,8 +523,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
         {
             taskset=ready_queue;
         }
-
-        taskset=sort_task_set_DM(taskset);      
+        taskset=sort_task_set_DM(taskset);     
     }
     
     return no_of_preemptions;        
@@ -537,7 +533,7 @@ int eager_lp_fps_schedule_old(real_time_taskset *taskset, float no_of_processors
 int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
 {
     int time=0;
-    int no_of_preemptions=0;    
+    int no_of_preemptions=0;  
     real_time_taskset *ready_queue=NULL;
     real_time_taskset *running_tasks[30];
     real_time_taskset *helper=taskset;
@@ -571,7 +567,7 @@ int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int
                     helper->cur_NPR=helper->rem_comp_time;
                 helper->abs_deadline=time+helper->period;
                 
-                insert_into_ready_queue_fps(&ready_queue, &helper, &taskset, no_of_processors,print_log);
+                rds_insert_into_ready_queue(&ready_queue, &helper, &taskset, no_of_processors,print_log);
                 if(ready_queue==NULL)
                 {
                     cout<<"\n\nError!!";
@@ -624,7 +620,7 @@ int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int
                                 cout<<"===================================preempting task"<<finished_task->task_no<<" by "<<ready_queue->task_no;
                             running_tasks[i]=ready_queue;
                             ready_queue=ready_queue->next_task;
-                            insert_into_ready_queue_fps(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
+                            rds_insert_into_ready_queue(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
 
                             no_of_preemptions++;
                         }
@@ -692,7 +688,7 @@ int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int
                     if(finished_task->abs_deadline<time+1)
                         finished_task->no_of_deadlines_missed++;
 
-                    insert_into_ready_queue_fps(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
+                    rds_insert_into_ready_queue(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
                     finished_task=running_tasks[i];
                     remove_from_ready_queue(&ready_queue, &finished_task, &taskset, print_log);
                     taskset=sort_task_set_DM(taskset);
@@ -761,12 +757,11 @@ int lazy_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int
 }
 
 
+
 int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIME, int print_log)
-{
-    
+{    
     int time=0;
-    int no_of_preemptions=0;
-    
+    int no_of_preemptions=0;  
     real_time_taskset *ready_queue=NULL;
     real_time_taskset *running_tasks[30];
     real_time_taskset *helper=taskset;
@@ -800,7 +795,7 @@ int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, in
                 helper->abs_deadline=time+helper->period;
                 helper->executed=0;
                 
-                insert_into_ready_queue_fps(&ready_queue, &helper, &taskset, no_of_processors,print_log);
+                rds_insert_into_ready_queue(&ready_queue, &helper, &taskset, no_of_processors,print_log);
                 if(ready_queue==NULL)
                 {
                     cout<<"\n\nError!!";
@@ -860,13 +855,13 @@ int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, in
                             cout<<"\n\t\t******************************************preempting task"<<finished_task->task_no<<"*\n";
                         running_tasks[preemptible_tasks[i]]=ready_queue;
                         ready_queue=ready_queue->next_task;
-                        insert_into_ready_queue_fps(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
+                        rds_insert_into_ready_queue(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
 
                         no_of_preemptions++;
                     }
                 }
             }
-                
+              
         for(int i=0;i<no_of_processors;i++)
         {
             if(running_tasks[i]!=NULL && running_tasks[i]->cur_NPR==0)
@@ -924,13 +919,13 @@ int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, in
                         cout<<"\n\n\n\t\t\tError task executed for more than C_i under RDS******\n\n\n";
                         exit(1);
                     }
-                    insert_into_ready_queue_fps(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
+                    rds_insert_into_ready_queue(&ready_queue, &finished_task, &taskset, no_of_processors,print_log);
                     finished_task=running_tasks[i];
                     remove_from_ready_queue(&ready_queue, &finished_task, &taskset, print_log);
                     taskset=sort_task_set_DM(taskset);
 
                     running_tasks[i]=NULL;
-                }      
+                }         
             }
         } 
         time++;
@@ -986,7 +981,7 @@ int eager_lp_fps_schedule(real_time_taskset *taskset, float no_of_processors, in
             taskset=ready_queue;
         }
 
-        taskset=sort_task_set_DM(taskset);      
+        taskset=sort_task_set_DM(taskset);        
     }
     
     return no_of_preemptions;        

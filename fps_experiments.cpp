@@ -11,21 +11,21 @@
 using namespace std;
 
 
-int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_PER_SIMULATION, int MAX_PERIOD, int MIN_PERIOD,int MAX_TIME, float DEADLINE_FRACTION, float npr_percentage, int print_results) 
+int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_PER_SIMULATION, int MAX_PERIOD, int MIN_PERIOD,int MAX_TIME, float DEADLINE_FRACTION, float npr_percentage, int print_results)
 {
     srand (time(NULL));
     fstream f_weighted, f_normal;
     
-    f_weighted.open("./results/weighted_results_varying_NPR.txt",ios::out);
+    f_weighted.open("./results/preemptions_weighted_results_varying_NPR.txt",ios::out);
     if(!f_weighted)
     {
-        cout<<"\nError opening file: ./results/weighted_results_varying_NPR.txt";
+        cout<<"\nError opening file: ./results/preemptions_weighted_results_varying_NPR.txt";
         exit(1);
     }
-    f_normal.open("./results/normal_results_varying_NPR.txt",ios::out);
+    f_normal.open("./results/preemptions_normal_results_varying_NPR.txt",ios::out);
     if(!f_normal)
     {
-        cout<<"\nError opening file: ./results/normal_results_varying_NPR.txt";
+        cout<<"\nError opening file: ./results/preemptions_normal_results_varying_NPR.txt";
         exit(1);
     }
     
