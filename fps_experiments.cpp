@@ -32,16 +32,6 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
 /******************************CONTROL VARIABLES******************************/    
     int print_basic=0;
     int print_log=0;
-    
-    NO_OF_PROCESSORS=(float)4.0000;    
-    MAX_NO_OF_TASKS=30;
-    MAX_TASKSETS_PER_SIMULATION=20;
-    MAX_PERIOD=450;
-    MIN_PERIOD=50;
-    MAX_TIME=5000;
-    DEADLINE_FRACTION=1;
-    npr_percentage=0.1;
-    print_results=1;
 /******************************CONTROL VARIABLES******************************/
     
     int no_of_preemptions_fps=0;
