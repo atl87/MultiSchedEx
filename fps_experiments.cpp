@@ -5,6 +5,7 @@
 #include "Task_Gen.h"
 #include "fps_schedulers.h"
 #include"edf_schedulers.h"
+#include "fps_tests.h"
 #include<math.h>
 #include <fstream>
 
@@ -14,7 +15,7 @@ using namespace std;
 int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_PER_SIMULATION, int MAX_PERIOD, int MIN_PERIOD,int MAX_TIME, float DEADLINE_FRACTION, float npr_percentage, int print_results)
 {
     srand (time(NULL));
-    fstream f_weighted, f_normal;
+    fstream f_weighted, f_normal, f_schedulability_weighted, f_schedulability_normal;
     
     f_weighted.open("./results/preemptions_weighted_results_varying_NPR.txt",ios::out);
     if(!f_weighted)
@@ -27,8 +28,19 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
     {
         cout<<"\nError opening file: ./results/preemptions_normal_results_varying_NPR.txt";
         exit(1);
+    }   
+    f_schedulability_weighted.open("./results/schedulability_weighted_results_varying_NPR.txt",ios::out);
+    if(!f_schedulability_weighted)
+    {
+        cout<<"\nError opening file: ./results/schedulability_weighted_results_varying_NPR.txt";
+        exit(1);
     }
-    
+    f_schedulability_normal.open("./results/schedulability_normal_results_varying_NPR.txt",ios::out);
+    if(!f_schedulability_normal)
+    {
+        cout<<"\nError opening file: ./results/schedulability_normal_results_varying_NPR.txt";
+        exit(1);
+    }
 /******************************CONTROL VARIABLES******************************/    
     int print_basic=0;
     int print_log=0;
@@ -37,13 +49,13 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
     int no_of_preemptions_fps=0;
     int no_of_preemptions_rds=0;
     int no_of_preemptions_ads=0;
-    
     int no_of_preemptions_edf=0;
     int no_of_preemptions_rds_edf=0;
     int no_of_preemptions_ads_edf=0;
-    
+
     float p_fps[20], eager_fps[20], lazy_fps[20];
     float p_edf[20], eager_edf[20], lazy_edf[20];
+    float sched_p_fps[20], sched_eager_fps[20], sched_lazy_fps[20];
     float util_sum=0.0000;   
     
         
@@ -57,6 +69,10 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
         p_edf[i]=0.0000;
         eager_edf[i]=0.0000;
         lazy_edf[i]=0.0000;
+        
+        sched_p_fps[i]=0.0000;
+        sched_eager_fps[i]=0.0000;
+        sched_lazy_fps[i]=0.0000;
     }
         
     util_sum=0.0000;
@@ -198,18 +214,20 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
 //                    exit(1);       
 //                }   
 /*************************EDF ends here*************************/
+                sched_p_fps[round]+=(p_fps_test_guan(taskset, NO_OF_PROCESSORS,0,0)*taskset_util);
+                sched_eager_fps[round]+=(eager_lp_fps_rta(taskset, NO_OF_PROCESSORS,0,0)*taskset_util);
+                sched_lazy_fps[round]+=(lazy_lp_fps_test_linkbased(taskset, NO_OF_PROCESSORS,0,0)*taskset_util);
                 
                 round++;
             }
 
-/****************************************************************************************YOUR CODE GOES ABOVE****************************************************************************************/                
-
+/****************************************************************************************YOUR CODE GOES ABOVE****************************************************************************************/
             delete_taskset(taskset,print_log); 
             counter++;
         }
 
         f_normal<<"\n"<<(no_of_preemptions_fps/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_rds/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_ads/MAX_TASKSETS_PER_SIMULATION);
-        f_normal<<"\t"<<(no_of_preemptions_edf/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_rds_edf/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_ads_edf/MAX_TASKSETS_PER_SIMULATION);
+        //f_normal<<"\t"<<(no_of_preemptions_edf/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_rds_edf/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_ads_edf/MAX_TASKSETS_PER_SIMULATION);
 
 
         if(print_results)
@@ -217,8 +235,8 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
             cout<<"\nUtilization: "<<cur_util;
             cout<<"\nPreemptions P-FPS: "<<(no_of_preemptions_fps/MAX_TASKSETS_PER_SIMULATION)<<" Preemptions RDS-FPS : "<<(no_of_preemptions_rds/MAX_TASKSETS_PER_SIMULATION);
             cout<<" Preemptions ADS-FPS : "<<(no_of_preemptions_ads/MAX_TASKSETS_PER_SIMULATION);
-
-/*            cout<<"\nPreemptions P-EDF: "<<(no_of_preemptions_edf/MAX_TASKSETS_PER_SIMULATION)<<" Preemptions RDS-EDF : "<<(no_of_preemptions_rds_edf/MAX_TASKSETS_PER_SIMULATION);
+/*           
+ *            cout<<"\nPreemptions P-EDF: "<<(no_of_preemptions_edf/MAX_TASKSETS_PER_SIMULATION)<<" Preemptions RDS-EDF : "<<(no_of_preemptions_rds_edf/MAX_TASKSETS_PER_SIMULATION);
  *            cout<<" Preemptions ADS-EDF : "<<(no_of_preemptions_ads_edf/MAX_TASKSETS_PER_SIMULATION);
  */
         }

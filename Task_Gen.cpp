@@ -69,6 +69,7 @@ int UUniFast(int number_of_tasks, float total_util, real_time_taskset* taskset, 
     
     helper->period=(float)(rand()%MAX_PERIOD+MIN_PERIOD);
     helper->comp_time=floor(helper->period*util_sum);
+    
     if(helper->comp_time<=(float)0.0000)
             return 0;
     helper->utilization=helper->comp_time/helper->period;  
@@ -90,6 +91,7 @@ int UUniFast(int number_of_tasks, float total_util, real_time_taskset* taskset, 
     helper->no_of_preemptions=0;
     helper->no_of_deadline_misses=0;
     helper->executed=0;
+    helper->saved_comp_time=helper->comp_time;
     
     return 1;
 }

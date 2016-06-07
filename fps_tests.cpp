@@ -9,7 +9,7 @@
 #include<stdlib.h>
 using namespace std;
 
-int quick_test_RTA_FPS(real_time_taskset *taskset, float number_of_proc, int task_set_no, int print_log, int print_result)
+int quick_test_RTA_FPS(real_time_taskset *taskset, float number_of_proc, int print_log, int print_result)
 {
     real_time_taskset *helper=taskset;
     int test_failed=0;
@@ -59,18 +59,18 @@ int quick_test_RTA_FPS(real_time_taskset *taskset, float number_of_proc, int tas
     if(test_failed)
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" NOT SCHEDULABLE by QUICK";
+            cout<<"\n\tTaskset NOT SCHEDULABLE by QUICK";
         return 0;
     }
     else
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" IS SCHEDULABLE by QUICK !!!!!";
+            cout<<"\n\tTaskset IS SCHEDULABLE by QUICK !!!!!";
         return 1;
     }
 }
 
-int bertogna_chirinei_lipari(real_time_taskset *taskset, float number_of_proc, int task_set_no, int print_log, int print_result)
+int bertogna_chirinei_lipari(real_time_taskset *taskset, float number_of_proc, int print_log, int print_result)
 {
     real_time_taskset *helper=taskset;
     int test_failed=0;
@@ -135,18 +135,18 @@ int bertogna_chirinei_lipari(real_time_taskset *taskset, float number_of_proc, i
     if(test_failed)
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" NOT SCHEDULABLE by BCL";        
+            cout<<"\n\tTaskset NOT SCHEDULABLE by BCL";        
         return 0;
     }
     else
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" IS SCHEDULABLE by BCL !!!!!";
+            cout<<"\n\tTaskset IS SCHEDULABLE by BCL !!!!!";
         return 1;
     }
 }
 
-int guan_etal_test_p_fps(real_time_taskset *taskset, float number_of_proc, int task_set_no, int print_log, int print_result)
+int p_fps_test_guan(real_time_taskset *taskset, float number_of_proc, int print_log, int print_result)
 {   
     real_time_taskset *helper=taskset;
     int test_failed=0;
@@ -225,19 +225,19 @@ int guan_etal_test_p_fps(real_time_taskset *taskset, float number_of_proc, int t
     if(test_failed)
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" NOT SCHEDULABLE by Guan et al.";
+            cout<<"\n\tTaskset NOT SCHEDULABLE by Guan et al.";
         return 0;
     }
     else
     {
          if(print_result)
-             cout<<"\n\tTaskset "<<task_set_no<<" IS SCHEDULABLE by Guan et al. !!!!!";
+             cout<<"\n\tTaskset IS SCHEDULABLE by Guan et al. !!!!!";
         return 1;
     }
               
 }
 
-int fps_link_based_test(real_time_taskset *taskset, float number_of_proc, int task_set_no, int print_log, int print_result)
+int lazy_lp_fps_test_linkbased(real_time_taskset *taskset, float number_of_proc, int print_log, int print_result)
 {   
     real_time_taskset *helper=taskset;
     int test_failed=0;
@@ -248,6 +248,8 @@ int fps_link_based_test(real_time_taskset *taskset, float number_of_proc, int ta
             diff[s]=(float)0.0000;
     
     int ctr=(int)number_of_proc;
+    
+    generate_inflated_taskset(taskset);
     
     while(ctr>0)
     {
@@ -312,23 +314,24 @@ int fps_link_based_test(real_time_taskset *taskset, float number_of_proc, int ta
    
         helper=helper->next_task;
     }
-      
+    
+    restore_taskset(taskset);
     if(test_failed)
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" NOT SCHEDULABLE by Guan et al.";
+            cout<<"\n\tTaskset NOT SCHEDULABLE by Link based et al.";
         return 0;
     }
     else
     {
          if(print_result)
-             cout<<"\n\tTaskset "<<task_set_no<<" IS SCHEDULABLE by Guan et al. !!!!!";
+             cout<<"\n\tTaskset IS SCHEDULABLE by Link based et al. !!!!!";
         return 1;
     }
               
 }
 
-int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int task_set_no, int print_log, int print_result)
+int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print_log, int print_result)
 {   
     real_time_taskset *helper=taskset;
     int test_failed=0;
@@ -409,13 +412,13 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int task_
     if(test_failed)
     {
         if(print_result)
-            cout<<"\n\tTaskset "<<task_set_no<<" NOT SCHEDULABLE by Our et al.";
+            cout<<"\n\tTaskset NOT SCHEDULABLE by Our et al.";
         return 0;
     }
     else
     {
          if(print_result)
-             cout<<"\n\tTaskset "<<task_set_no<<" IS SCHEDULABLE by Our et al. !!!!!";
+             cout<<"\n\tTaskset IS SCHEDULABLE by Our et al. !!!!!";
         return 1;
     }
               
