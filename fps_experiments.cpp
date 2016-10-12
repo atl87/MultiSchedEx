@@ -41,10 +41,10 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
         cout<<"\nError opening file: ./results/schedulability_normal_results_varying_NPR.txt";
         exit(1);
     }
-/******************************CONTROL VARIABLES******************************/    
+/******************************OUTPUT CONTROL VARIABLES******************************/    
     int print_basic=0;
     int print_log=0;
-/******************************CONTROL VARIABLES******************************/
+/******************************OUTPUT CONTROL VARIABLES******************************/
     
     int no_of_preemptions_fps=0;
     int no_of_preemptions_rds=0;
@@ -56,39 +56,37 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
     float p_fps[20], eager_fps[20], lazy_fps[20];
     float p_edf[20], eager_edf[20], lazy_edf[20];
     float sched_p_fps[20], sched_eager_fps[20], sched_lazy_fps[20];
-    float util_sum=0.0000;   
     
-        
-    float cur_util=1;
+    float util_sum=0.0000*0;           
+    float cur_util=1.0000;
     float max_util=NO_OF_PROCESSORS;
+    
     for(int i=0;i<20;i++)
     {
-        p_fps[i]=0.0000;
-        eager_fps[i]=0.0000;
-        lazy_fps[i]=0.0000;
-        p_edf[i]=0.0000;
-        eager_edf[i]=0.0000;
-        lazy_edf[i]=0.0000;
+        p_fps[i]=0.0000*0;
+        eager_fps[i]=0.0000*0;
+        lazy_fps[i]=0.0000*0;
+        p_edf[i]=0.0000*0;
+        eager_edf[i]=0.0000*0;
+        lazy_edf[i]=0.0000*0;
         
-        sched_p_fps[i]=0.0000;
-        sched_eager_fps[i]=0.0000;
-        sched_lazy_fps[i]=0.0000;
+        sched_p_fps[i]=0.0000*0;
+        sched_eager_fps[i]=0.0000*0;
+        sched_lazy_fps[i]=0.0000*0;
     }
         
-    util_sum=0.0000;
-
     no_of_preemptions_fps=0;
     no_of_preemptions_rds=0;
     no_of_preemptions_ads=0;
 
     no_of_preemptions_edf=0;
     no_of_preemptions_rds_edf=0;
-    no_of_preemptions_ads_edf=0;        
-        
+    no_of_preemptions_ads_edf=0;                
         
     cout<<"\nNumber of tasks: "<<MAX_NO_OF_TASKS<<"\n";  
 
-    while(cur_util<=max_util){
+    while(cur_util<=max_util)
+    {
         if(print_basic)
             cout<<"\nUtilization: "<<cur_util<<"\n";
 

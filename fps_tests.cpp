@@ -327,8 +327,7 @@ int lazy_lp_fps_test_linkbased(real_time_taskset *taskset, float number_of_proc,
          if(print_result)
              cout<<"\n\tTaskset IS SCHEDULABLE by Link based et al. !!!!!";
         return 1;
-    }
-              
+    }              
 }
 
 int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print_log, int print_result)
@@ -421,6 +420,5 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print
          if(print_result)
              cout<<"\n\tTaskset is schedulable by [G-LP-FPS with EPA]";
         return 1;
-    }
-              
+    }              
 }
