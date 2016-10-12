@@ -117,7 +117,7 @@ float blocking_from_m_tasks_afterstart(real_time_taskset *task, int m)
     int max=0;
     float sum=0;
     for(int i=0;i<100;i++)
-        blocking[i]=(float)0.0000;
+        blocking[i]=(float)0.0000*0;
     
     while(help)
     {

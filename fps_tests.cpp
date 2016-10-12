@@ -335,7 +335,7 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print
 {   
     real_time_taskset *helper=taskset;
     int test_failed=0;
-    float new_workload=0.00, interference=0.00;
+    float new_workload=0.00*0, interference=0.00*0;
     float diff[100];
     
     while(helper)
@@ -347,29 +347,30 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print
         float total_blocking_after_start=blocking_from_m_tasks_afterstart(helper,number_of_proc-1);
        
         for(int s=0;s<100;s++)
-            diff[s]=(float)0.0000;
+            diff[s]=(float)0.0000*0;
         
         float t=(float)1.0000;
 
         do{
         real_time_taskset *higher_priority_task=taskset;
-        interference=(float) 0.0000;
+        interference=(float) 0.0000*0;
         int i=0;
         
         while(higher_priority_task!=helper){
             
             float no_carry_in=interference_of_task_without_CI(higher_priority_task,t);
             
-            float interference2= t - (helper->comp_time - helper->largest_NPR +1);
-            if(interference2 < no_carry_in && interference2> (float) 0)
-                no_carry_in=interference2;
+            float limit_on_interference= t - (helper->comp_time - helper->largest_NPR +1);
+            
+            if(limit_on_interference < no_carry_in && limit_on_interference> (float) 0)
+                no_carry_in=limit_on_interference;
               
             interference+=no_carry_in;
             
             float with_carry_in=interference_of_task_with_CI(higher_priority_task,t);
             
-            if(interference2 < with_carry_in && interference2>0)
-                with_carry_in=interference2;
+            if(limit_on_interference < with_carry_in && limit_on_interference> (float) 0)
+                with_carry_in=limit_on_interference;
             
             diff[i++]=with_carry_in - no_carry_in;
             
@@ -397,7 +398,7 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print
         helper->RT_our=helper->RT;
         
         if(print_log)
-            cout<<"\n\t[Our etal.]: Task "<<helper->task_no<<" : "<<helper->RT<<" (dl : "<<helper->deadline<<")"; 
+            cout<<"\n\t[G-LP-FPS with EPA]: Task "<<helper->task_no<<" : "<<helper->RT<<" (dl : "<<helper->deadline<<")"; 
         
         if(helper->RT > helper->deadline)
         {
@@ -412,13 +413,13 @@ int eager_lp_fps_rta(real_time_taskset *taskset, float number_of_proc, int print
     if(test_failed)
     {
         if(print_result)
-            cout<<"\n\tTaskset NOT SCHEDULABLE by Our et al.";
+            cout<<"\n\tTaskset NOT schedulable by [G-LP-FPS with EPA]";
         return 0;
     }
     else
     {
          if(print_result)
-             cout<<"\n\tTaskset IS SCHEDULABLE by Our et al. !!!!!";
+             cout<<"\n\tTaskset is schedulable by [G-LP-FPS with EPA]";
         return 1;
     }
               
