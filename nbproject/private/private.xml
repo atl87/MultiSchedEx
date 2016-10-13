@@ -9,7 +9,11 @@
         <group>
             <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/main.cpp</file>
             <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/fps_experiments.cpp</file>
-            <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/Tasks.cpp</file>
+            <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/fps_tests.cpp</file>
+            <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/fps_tests.h</file>
+            <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/fps_schedulers.cpp</file>
+            <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/Task_Gen.cpp</file>
+            <file>file:/home/abhilash/NetBeansProjects/MultiSchedEx/Tasks.h</file>
         </group>
     </open-files>
 </project-private>

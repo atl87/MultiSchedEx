@@ -38,7 +38,8 @@ int UUniFast(int number_of_tasks, float total_util, real_time_taskset* taskset, 
         {
             continue;
         }
-       
+
+        
         helper->period=(float)(rand()%MAX_PERIOD+MIN_PERIOD);
         helper->deadline= floor(deadline_percentage*helper->period);
         helper->executed=0;
@@ -50,8 +51,9 @@ int UUniFast(int number_of_tasks, float total_util, real_time_taskset* taskset, 
         helper->utilization=helper->comp_time/helper->period;
         util_total=util_total+helper->utilization;
         helper->no_of_preemptions=0;
-        helper->no_of_deadline_misses=0;
+        helper->no_of_deadlines_missed=0;
 
+        
         if(helper->utilization > (float)1.0000)
         {
             return 0;
@@ -69,8 +71,7 @@ int UUniFast(int number_of_tasks, float total_util, real_time_taskset* taskset, 
     
     helper->period=(float)(rand()%MAX_PERIOD+MIN_PERIOD);
     helper->comp_time=floor(helper->period*util_sum);
-    
-    if(helper->comp_time<=(float)0.0000)
+    if(helper->comp_time<=(float)0.1)
             return 0;
     helper->utilization=helper->comp_time/helper->period;  
     util_total=util_total+helper->utilization;
@@ -83,15 +84,16 @@ int UUniFast(int number_of_tasks, float total_util, real_time_taskset* taskset, 
     }
     if(util_total<total_util-(float)0.1)
         return 0;
-    
+
     helper->task_no=counter+1;
     helper->largest_NPR=0;
     helper->no_of_preemptions=0;
     helper->no_of_pp=helper->comp_time-(float)1.0000; 
     helper->no_of_preemptions=0;
-    helper->no_of_deadline_misses=0;
+    helper->no_of_deadlines_missed=0;
     helper->executed=0;
     helper->saved_comp_time=helper->comp_time;
+    helper->rem_comp_time=helper->comp_time;
     
     return 1;
 }
@@ -103,13 +105,16 @@ void create_NPRS(real_time_taskset *taskset, float num_of_processors, float npr_
     int i=1;
     while(helper)
     {
-        helper->largest_NPR=ceil(npr_percentage*helper->comp_time);
-
-        if(helper->largest_NPR>(float)0.0000)
-            helper->no_of_pp=ceil(helper->comp_time/helper->largest_NPR)-1;
-        else
-            helper->no_of_pp=helper->comp_time-(float)1.0000;
+            helper->largest_NPR=ceil(npr_percentage*helper->comp_time);
+        
+            if(helper->largest_NPR>(float)0.0000)
+                helper->no_of_pp=ceil(helper->comp_time/helper->largest_NPR)-1;
+            else
+                helper->no_of_pp=helper->comp_time-(float)1.0000;
+        
         i++;
         helper=helper->next_task;
-    }    
+    }
+
+    
 }

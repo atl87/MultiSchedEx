@@ -42,7 +42,7 @@ int varying_NPRs(float NO_OF_PROCESSORS, int MAX_NO_OF_TASKS, int MAX_TASKSETS_P
         exit(1);
     }
 /******************************OUTPUT CONTROL VARIABLES******************************/    
-    int print_basic=0;
+    int print_basic=1;
     int print_log=0;
 /******************************OUTPUT CONTROL VARIABLES******************************/
     

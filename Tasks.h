@@ -60,6 +60,7 @@ float return_utilization(real_time_taskset *taskset);
 void generate_NP_taskset(real_time_taskset *taskset);
 int count_tasks(real_time_taskset *taskset);
 int calculate_LCM(real_time_taskset *FPS_tasks);
+real_time_taskset *sort_tasks(real_time_taskset *taskset);
 
 #ifdef __cplusplus
 }

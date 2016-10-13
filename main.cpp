@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     int MAX_TIME=5000;
     float DEADLINE_FRACTION=1;
     float npr_percentage=0.1;
-    int print_results=0;
+    int print_results=1;
     
     varying_NPRs(NO_OF_PROCESSORS, MAX_NO_OF_TASKS, MAX_TASKSETS_PER_SIMULATION, MAX_PERIOD, MIN_PERIOD, MAX_TIME, DEADLINE_FRACTION, npr_percentage, print_results); 
     
